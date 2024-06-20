@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Gate</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+   
+    <style>
+        .d1:hover {
+            transform: scale(2);
+            opacity: 2;
+            transition: 0.4;
+        }
+
+        .d1 {
+
+            transition: 0.1s;
+            opacity: 0.5;
+        }
+
+        .navbar {
+            padding: 0.5rem 0.8rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: larger
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        body {
+            max-width: 100%;
+        }
+
+        .sa {
+
+            opacity: 0.9;
+        }
+
+        #map {
+            height: 80%;
+        }
+    </style>
+   <script>
+    async function gett() {
+        var dd = document.getElementById('ti').value.toLowerCase(); 
+        await getText('http://127.0.0.1:5000/process_search?title=' + dd);
+    }
+
+    async function getText(url) {
+        var response = await fetch(url);
+        var x = await response.json();
+
+        if (x && x.title) {
+    var result = x;
+    var details = document.getElementById("detail");
+    details.innerHTML = "<table border='1' class='animate__animated animate__fadeInDownBig  table-striped table text-center'>" +
+                           "<tr><th>Title</th><th>Description</th><th>Price</th><th>Category</th><th>Image</th></tr>" +
+                           "<tr>" +
+                           "<td>" + result.title + "</td>" +
+                           "<td>" + result.description + "</td>" +
+                           "<td>" + result.price + " Saudi Riyal </td>" +
+                           "<td>" + (result.cata === 1 ? 'Intel' : 'AMD') + "</td>" +
+                           "<td><img src='./" + result.image + "' alt='Product Image' style='max-width: 100px; max-height: 100px;'></td>" +
+                           "</tr>" +
+                         "</table>";
+} 
+    }
+   
+</script>
+
+
+    
+</head>
+
+<body>
+
+    <div class="row mb-5">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top me-auto">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tggl" aria-controls="tggl"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="tggl">
+                <a class="navbar-brand" href="#">
+                    <img src="../img/logo.png" class="d-inline-block align-text-top" width="100" height="40" alt="Logo">
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ourproduct">Our Product</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="buy">Buy</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="search">Search Product</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="cart">My Cart <span class="badge badge-light" id="cartItemCount">0</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="ml-auto text-end">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">LOGOUT</button>
+            </div>
+        </nav>
+    </div>
+    <div class="mt-5">
+        <br />
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to Logout?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <a class="btn btn-danger" href="login">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("cartItemCount").innerHTML = localStorage.getItem("itemNumbers");
+    
+        function updateBadgeCount() {
+            var bdg = document.getElementById("cartItemCount");
+            bdg.innerHTML = localStorage.getItem("itemNumbers");
+        }
+    </script>
+       
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="w-50 text-center">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" class="form-control mb-2" id="ti" />
+                    <button  class="btn btn-warning btn-lg" onclick="gett()">search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detail"></div>
+
+      <footer class="col-md-12 fixed-bottom">
+        <div class="row bg-dark text-white sa">
+            <div class="col-sm-6">
+                <h1 class="text-center pt-2 fw-bold">Contact us</h1>
+                <div class="container">
+                    <h6 class="pb-3 pt-3 ps-5">
+                        <i class="fa fa-envelope fa-2x pr-1"></i> Email: TechGate@Gate.com
+                    </h6>
+                    <h6 class="pb-3"><i class="fa fa-phone fa-2x pr-2"></i>Phone: 01000000000</h6>
+                    <h6 class="pb-3"> <a href="#"> <i class="fa fa-facebook fa-2x pr-2"></i> Facebook : @TechGate</h6>
+                    </a>
+                    <h6 class="pb-3"> <a href="#"> <i class="fa fa-twitter fa-2x pr-2"></i> Twitter : @TechGate</h6></a>
+
+
+                    <h6 class="pb-3"><i class="fa fa-home fa-2x pr-1"></i>Location: AlMadinah AlMunawarah KSA</h6>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1 class="text-center pt-2 fw-bold">Our Location</h1>
+                <script>
+                    function initMap() {
+                        m = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 18,
+                            center: { lat: 24.475399242044897, lng: 39.58252339888386 },
+                        });
+                    }
+                </script>
+                <div id="map"></div>
+                <script
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoLVOv6pfvrJ2NX4rezpyO9zxqxXAV5eo&callback=initMap"
+                    async></script>
+
+            </div>
+        </div>
+        <div class="row bg-dark text-white sa">
+            <div class="col-md-12 text-center">
+                <p><b>©2024 Tech Gate. All rights reserved.</b></p>
+            </div>
+        </div>
+    </footer>
+    
+ 
+
+</body>
+
+</html>

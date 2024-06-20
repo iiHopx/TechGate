@@ -1,0 +1,223 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Gate</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            background-color: rgb(185, 185, 181);
+        }
+
+        .grey-background {
+            background-color: #f0f0f0;
+        }
+
+        .pr-custom {
+            padding-right: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="row mb-5">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top me-auto">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tggl" aria-controls="tggl"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="tggl">
+                <a class="navbar-brand" href="#">
+                    <img src="../img/logo.png" class="d-inline-block align-text-top" width="100" height="40" alt="Logo">
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ourproduct">Our Product</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="buy">Buy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search">Search Product</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="cart">My Cart <span class="badge badge-light" id="cartItemCount">0</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="ml-auto text-end">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">LOGOUT</button>
+            </div>
+        </nav>
+    </div>
+    <div class="mt-5">
+        <br />
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to Logout?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <a class="btn btn-danger" href="login">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("cartItemCount").innerHTML = localStorage.getItem("itemNumbers");
+    
+        function updateBadgeCount() {
+            var bdg = document.getElementById("cartItemCount");
+            bdg.innerHTML = localStorage.getItem("itemNumbers");
+        }
+    </script>
+    
+
+
+    </head>
+
+    <body>
+        <br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 grey-background pr-custom"
+                    style="box-shadow: 2px 5px 30px rgb(3, 3, 3); border-radius: 15px;">
+                    <h2 style="text-align: center;">BUY</h2><BR>
+                    <HR>
+                    <form class="pt-3" action="/process_buy" method="POST" enctype="multipart/form-data" id="BuyForm">
+                        <input type="hidden" id="custName" class="form-control" name="custName" />
+                        <input type="hidden" id="total" name="total" class="form-control" />
+                        <input type="hidden" id="ordate" name="ordate" class="form-control" />
+                        <div class="form-group">
+                            <label for="paymentOption" style="text-align: center;"></label><br>
+                            <input type="radio" id="paymentOption" name="paymentOption" value="creditCard"
+                                checked>Credit Card<img src="../img/visa.png" width="100" height="30"> <br>
+                            <input type="radio" id="paymentOption" name="paymentOption" value="paypal">PayPal <img
+                                src="../img/pay.png" width="100" height="30">
+                            <br>
+                        </div>
+                        <div class="form-group">
+                            <label for="s">Total Value:</label>
+                            <div id="totals"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="note">Note:</label>
+                            <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-success " onclick=onSubmit()>Submit</button>
+                    </form>
+                </div>
+                <div class="container-fluid col-md-6 mt-2">
+                    <video width="100%" height="100%" autoplay muted loop>
+                        <source src="../vid/vid.mp4" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script>
+            document.getElementById("custName").value = localStorage.getItem("customerName");
+            document.getElementById("total").value = localStorage.getItem("total");
+            var now = new Date();
+            document.getElementById("ordate").value = now.toISOString();
+            document.getElementById("")
+            function onSubmit() {
+                var paymentOption = document.querySelector('input[name="paymentOption"]:checked').value;
+
+                var totalValue = document.getElementById("totals").innerText.trim();
+
+                Swal.fire({
+                    text: "total : " + totalValue + "using : " + paymentOption + "Are you sure?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "OK",
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Your order has been placed successfully.",
+                            icon: "success",
+                            timer: 5000
+                        }).then(() => {
+                            document.getElementById("BuyForm").submit();
+
+                        });
+                    }
+                });
+
+                return false; 
+            }
+        </script>
+        <script>
+            document.getElementById("totals").innerHTML = localStorage.getItem("total");
+
+
+        </script>
+        <br><br><br><br><br>
+     
+    <footer class="col-md-12 sticky-bottom">
+        <div class="row bg-dark text-white sa">
+            <div class="col-sm-6">
+                <h1 class="text-center pt-2 fw-bold">Contact us</h1>
+                <div class="container">
+                    <h6 class="pb-3 pt-3 ps-5">
+                        <i class="fa fa-envelope fa-2x pr-1"></i> Email: TechGate@Gate.com
+                    </h6>
+
+                    <h6 class="pb-3"><i class="fa fa-phone fa-2x pr-2"></i>Phone: 01000000000</h6>
+                    <h6 class="pb-3"> <a href="#"> <i class="fa fa-facebook fa-2x pr-2"></i> Facebook : @TechGate</h6>
+                    </a>
+                    <h6 class="pb-3"> <a href="#"> <i class="fa fa-twitter fa-2x pr-2"></i> Twitter : @TechGate</h6></a>
+
+
+                    <h6 class="pb-3"><i class="fa fa-home fa-2x pr-1"></i>Location: AlMadinah AlMunawarah KSA</h6>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1 class="text-center pt-2 fw-bold">Our Location</h1>
+                <script>
+                    function initMap() {
+                        m = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 18,
+                            center: { lat: 24.475399242044897, lng: 39.58252339888386 },
+                        });
+                    }
+                </script>
+                <div id="map"></div>
+                <script
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoLVOv6pfvrJ2NX4rezpyO9zxqxXAV5eo&callback=initMap"
+                    async></script>
+
+            </div>
+        </div>
+        <div class="row bg-dark text-white sa">
+            <div class="col-md-12 text-center">
+                <p><b>©2024 Tech Gate. All rights reserved.</b></p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

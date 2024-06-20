@@ -1,0 +1,275 @@
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            display: flex;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 20px;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar h3 {
+            font-weight: bold;
+        }
+
+        .sidebar .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .profile-info h4 {
+            margin: 5px 0;
+        }
+
+        .sidebar .profile-info p {
+            color: gray;
+            margin: 0;
+        }
+
+        .sidebar .nav-link {
+            color: #000;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #ffc107;
+            color: #fff;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: 100%;
+        }
+
+
+        .modal-dialog {
+            max-width: 100%;
+            width: auto !important;
+            display: inline-block;
+        }
+
+        .modal-content {
+            width: 100%;
+        }
+
+        .modal-body img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        .btn {
+            margin-bottom: 5px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body><br>
+    <div class="sidebar">
+        <h3>Manage Page</h3>
+        <div class="profile-info">
+            <img src="../img/admin.png" class="rounded-circle" alt="Profile Picture">
+            <h4>Admin</h4>
+            <p>Here you can Edit , Delete ,Insert,View Details of products</p>
+        </div>
+        <div class="text-center">
+        <button type="button" onclick="insertItem()" class="btn btn-success" data-toggle="modal"
+            data-target="#myModal">Insert new Item</button> <br>
+        </div>
+    </div>
+    <div class="content">
+        <div class="modal fade text-center" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Manage Item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="id" class="form-control" id="id"  />
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" name="title" class="form-control" id="ti"  />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <input type="text" class="form-control" id="de"  />
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price:</label>
+                            <input type="number" class="form-control" id="pr"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Catagory</label>
+                            <select class="form-control" id="ca" >
+                                <option value="0">Please select</option>
+                                <option value="1">Intel</option>
+                                <option value="2">AMD</option>
+                            </select>
+                        </div>
+                        <br><img src="" alt="" id="mm" width="150px"><br>
+                        <div id="picd" class="form-group">
+                            <label>Select picture:</label>
+                            <input type="file" id="ff" class="form-control" accept="image/png, image/jpeg" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="insert" class="btn btn-info " data-dismiss="modal"
+                            onclick="insert()">Insert</button>
+                        <button id="edit" class="btn btn-info" data-dismiss="modal" onclick="update()">Update</button>
+                        <button id="del" class="btn btn-info" data-dismiss="modal" onclick="delet()">Delete</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div><br>
+        <table class="table table-bordered table-striped mx-auto" id="demo"></table>
+        <script>
+            document.getElementById("edit").style.display = "none";
+            document.getElementById("picd").style.display = "none";
+            document.getElementById("insert").style.display = "none";
+            document.getElementById("del").style.display = "none";
+            getList("http://127.0.0.1:5000/process_index");
+
+            async function getList(url) {
+                var response = await fetch(url);
+                var x = await response.json();
+                var ta = "<thead class=\"thead-dark text-center\"><tr><th>#</th><th>Name</th><th>price</th> <th>Action </th> </tr> </thead><tbody class=\"text-center\">";
+                for (i = 0; i < x.length; i++) {
+                    ta += "<tr>  <td>" + x[i].id + "</td><td>" + x[i].title + "</td><td>" +
+                        x[i].price + "</td>" +
+                        "<td> <button type='button' onclick=getItem('" + x[i].id + "') class='btn btn-info '  data-toggle='modal' data-target='#myModal'>Detail</button>" +
+                        "<button type='button' onclick=editItem('" + x[i].id + "') class='btn btn-warning ml-2' data-toggle='modal' data-target='#myModal' >edit</button>" +
+                        "<button type='button' onclick=deleteItem('" + x[i].id + "') class='btn btn-danger ml-2' data-toggle='modal' data-target='#myModal'>Delete</button>" +
+                        "</td></tr>";
+                }
+                document.getElementById("demo").innerHTML = ta +"</tbody>";
+            }
+
+
+            async function getItem(id) {
+                var response = await fetch('http://127.0.0.1:5000/process_detail?id=' + id);
+                var x = await response.json();
+                document.getElementById("id").value = x.id;
+                document.getElementById("ti").value = x.title;
+                document.getElementById("de").value = x.description;
+                document.getElementById("pr").value = x.price;
+                document.getElementById("ca").value = x.cata;
+                document.getElementById("mm").src = 'http://127.0.0.1:5000/' + x.image;
+            }
+            function editItem(dd) {
+                document.getElementById("edit").style.display = "block";
+                document.getElementById("picd").style.display = "block";
+                document.getElementById("id").disabled = false;
+                document.getElementById("ti").disabled = false;
+                document.getElementById("de").disabled = false;
+                document.getElementById("pr").disabled = false;
+                document.getElementById("ca").disabled = false;
+                document.getElementById("ff").disabled = false;
+
+                getItem(dd);
+            }
+            function deleteItem(dd) {
+                document.getElementById("del").style.display = "block";
+                getItem(dd);
+            }
+            function insertItem() {
+                document.getElementById("insert").style.display = "block";
+                document.getElementById("picd").style.display = "block";
+
+            }
+            async function insert() {
+                document.getElementById("insert").style.display = "none";
+                document.getElementById("picd").style.display = "none";
+                var ti = document.getElementById('ti').value;
+                var de = document.getElementById("de").value;
+                var pr = document.getElementById("pr").value;
+                var ca = document.getElementById("ca").value;
+                var input = document.getElementById('ff')
+                var data = new FormData()
+                data.append('upfile', input.files[0]);
+                data.append('title', ti);
+                data.append('description', de);
+                data.append('price', pr);
+                data.append('cata', ca);
+                let options = { method: 'POST', body: data }
+                let response = await fetch("http://127.0.0.1:5000/process_insert", options);
+                getList("http://127.0.0.1:5000/process_index");
+            }
+
+            async function update() {
+                document.getElementById("edit").style.display = "none";
+                document.getElementById("picd").style.display = "none";
+                var id = document.getElementById('id').value;
+                var ti = document.getElementById('ti').value;
+                var de = document.getElementById("de").value;
+                var pr = document.getElementById("pr").value;
+                var ca = document.getElementById("ca").value;
+
+                var input = document.getElementById('ff')
+                var data = new FormData()
+                data.append('id', id);
+                data.append('upfile', input.files[0]);
+                data.append('title', ti);
+                data.append('description', de);
+                data.append('price', pr);
+                data.append('cata', ca);
+
+                let options = {
+                    method: 'PUT',
+                    body: data
+                }
+                let response = await fetch("http://127.0.0.1:5000/process_update", options);
+                getList("http://127.0.0.1:5000/process_index");
+            }
+            async function delet() {
+                document.getElementById("del").style.display = "none";
+                if (confirm("are you sure!") == true) {
+                    var tt = document.getElementById('ti').value;
+                    let options = {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                    }
+                    let response = await fetch("http://127.0.0.1:5000/process_delete?title=" + tt, options);
+                    getList("http://127.0.0.1:5000/process_index");
+                }
+            }
+        </script>
+    </div>
+</body>
+
+</html>

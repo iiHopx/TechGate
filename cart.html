@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Gate</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        .d1:hover {
+            transform: scale(2);
+            opacity: 2;
+            transition: 0.4s;
+        }
+
+        .d1 {
+            transition: 0.1s;
+            opacity: 0.5;
+        }
+
+
+        body {
+            max-width: 100%;
+        }
+
+        .sa {
+            opacity: 0.9;
+        }
+
+        #map {
+            height: 80%;
+        }
+
+        .custom-input {
+            margin-bottom: 1rem;
+            width: 50%;
+        }
+
+        .btn1 {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
+
+        .btn1:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            margin-bottom: 80px;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <br><br><br><br>
+    <div class="container-fluid text-center">
+        <div class="form-group custom-input mx-auto">
+            <label for="customerName">Enter Customer Name:</label>
+            <input type="text" id="customerName" class="form-control" name="customerName">
+        </div>
+        <div class="form-group custom-input mx-auto">
+            <label for="tt">Enter PC Name:</label>
+            <input type="text" id="tt" class="form-control" onchange="getprice()">
+        </div>
+        <div class="form-group custom-input mx-auto">
+            <label for="lbl1">Price:</label>
+            <span id="lbl1" class="form-control"></span>
+        </div>
+        <div class="form-group custom-input mx-auto">
+            <label for="num">Enter Quantity:</label>
+            <input type="number" id="num" size="3" class="form-control">
+        </div>
+        <button onclick="add()" class="btn btn1">Buy</button>
+
+        <div id="mess"></div>
+        <br>
+        <div class="table-container">
+            <table border="1" id="tbl" class="table table-bordered"></table>
+        </div>
+        <button onclick="checkout()" class="btn btn1">Check out</button>
+
+        <script>
+            document.getElementById("customerName").value = localStorage.getItem("custname");
+            
+            let pp = "";
+            let cartItems = [];
+
+            async function getprice() {
+                let bookName = document.getElementById("tt").value;
+                let response = await fetch('/process_search?title=' + bookName);
+
+                if (response.ok) {
+                    let data = await response.json();
+                    pp = data.price;
+                    document.getElementById("lbl1").innerHTML = pp;
+                } else {
+                    pp = "no book was found";
+                    document.getElementById("lbl1").innerHTML = pp;
+                }
+            }
+
+            function add() {
+                let item = {
+                    name: document.getElementById("tt").value,
+                    price: parseFloat(pp),
+                    quant: parseInt(document.getElementById("num").value),
+                };
+                cartItems.push(item);
+                display();
+                document.getElementById("lbl1").innerHTML = "";
+                document.getElementById("tt").value = "";
+                document.getElementById("num").value = "";
+            }
+
+            function display() {
+                let ta = "My Shopping Cart<tr><th>Name</th><th>Price</th><th>Quantity</th><th>Actions</th></tr>";
+                for (
+                    let i = 0; i < cartItems.length; i++) {
+                    ta += '<tr>' +
+                        '<td>' + cartItems[i].name + '</td>' +
+                        '<td>' + cartItems[i].price + '</td>' +
+                        '<td>' + cartItems[i].quant + '</td>' +
+                        '<td><button class="btn btn-info" onclick="del(\'' + cartItems[i].name + '\')">Delete</button></td>' +
+                        '</tr>';
+                }
+                document.getElementById("tbl").innerHTML = ta;
+            }
+
+            function del(nn) {
+                for (let i = 0; i < cartItems.length; i++) {
+                    if (cartItems[i].name == nn) {
+                        cartItems.splice(i, 1);
+                        break;
+                    }
+                }
+                display();
+            }
+
+            function checkout() {
+                let tot = 0;
+                cartItems.forEach(item => {
+                    tot += item.price * item.quant;
+                });
+
+                let customerName = document.getElementById("customerName").value;
+                localStorage.setItem("total", tot);
+                localStorage.setItem("itemNumbers", cartItems.length);
+                localStorage.setItem("customerName", customerName);
+                updateBadgeCount();
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thank you for your purchase!',
+                    text: 'Total amount to pay: $' + tot + '. Number of items: ' + localStorage.getItem("itemNumbers"),
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+
+                cartItems = [];
+                display();
+                updateBadgeCount();
+
+            }
+        </script>
+
+    </div>
+
+    <div class="row mb-5">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top me-auto">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tggl" aria-controls="tggl"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="tggl">
+                <a class="navbar-brand" href="#">
+                    <img src="../img/logo.png" class="d-inline-block align-text-top" width="100" height="40" alt="Logo">
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ourproduct">Our Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="buy">Buy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Search Product</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="cart">My Cart <span class="badge badge-light" id="cartItemCount">0</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="ml-auto text-end">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">LOGOUT</button>
+            </div>
+        </nav>
+    </div>
+    <div class="mt-5">
+        <br />
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Logout</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to Logout?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <a class="btn btn-danger" href="login">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("cartItemCount").innerHTML = localStorage.getItem("itemNumbers");
+    
+        function updateBadgeCount() {
+            var bdg = document.getElementById("cartItemCount");
+            bdg.innerHTML = localStorage.getItem("itemNumbers");
+        }
+    </script>
+    
+
+    <div id="detail"></div>
+
+    <footer class="col-md-12 sticky-bottom">
+        <div class="row bg-dark text-white sa">
+            <div class="col-sm-6">
+                <h1 class="text-center pt-2 fw-bold">Contact us</h1>
+                <div class="container">
+                    <h6 class="pb-3 pt-3 ps-5">
+                        <i class="fa fa-envelope fa-2x pr-1"></i> Email: TechGate@Gate.com
+                    </h6>
+
+                    <h6 class="pb-3"><i class="fa fa-phone fa-2x pr-2"></i>Phone: 01000000000</h6>
+                    <h6 class="pb-3"> <a href="#"> <i class="fa fa-facebook fa-2x pr-2"></i> Facebook : @TechGate</h6>
+                    </a>
+                    <h6 class="pb-3"> <a href="#"> <i class="fa fa-twitter fa-2x pr-2"></i> Twitter : @TechGate</h6></a>
+
+
+                    <h6 class="pb-3"><i class="fa fa-home fa-2x pr-1"></i>Location: AlMadinah AlMunawarah KSA</h6>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1 class="text-center pt-2 fw-bold">Our Location</h1>
+                <script>
+                    function initMap() {
+                        m = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 18,
+                            center: { lat: 24.475399242044897, lng: 39.58252339888386 },
+                        });
+                    }
+                </script>
+                <div id="map"></div>
+                <script
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoLVOv6pfvrJ2NX4rezpyO9zxqxXAV5eo&callback=initMap"
+                    async></script>
+
+            </div>
+        </div>
+        <div class="row bg-dark text-white sa">
+            <div class="col-md-12 text-center">
+                <p><b>©2024 Tech Gate. All rights reserved.</b></p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
