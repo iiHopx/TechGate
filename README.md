@@ -7,6 +7,7 @@ Overview: A comprehensive e-commerce platform that includes user registration, s
 
 ### User Authentication and Validation
 Custom registration form with real-time JavaScript validation for password matching, age verification, and agreement consent.
+
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/registration.png" alt="Registration Page" width="500"/>
 
 ### Dynamic Product Display
@@ -22,16 +23,20 @@ Custom registration form with real-time JavaScript validation for password match
 
 ### Shopping Cart and Checkout
 Allows customers to add products, view total, and save details to local storage. Checkout triggers a Sweet Alert confirmation and saves order details to the database.
+
+
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/buypage.png" alt="Shopping Cart" width="500"/>
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/checkout.png" alt="Checkout" width="500"/>
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/checkout1.png" alt="Checkout Step 2" width="500"/>
 
 ### Admin Dashboard
 Provides CRUD operations for managing products with modal-based effects. Admin Manage Page allows detailed database management and visual feedback for actions taken.
+
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/managePage.png" alt="Admin Manage Page" width="500"/>
 
 ### Responsive Design
 Built with Bootstrap for cross-device compatibility, featuring a navigation bar with logo and session-based logout functionality.
+
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/login.png" alt="Login Page" width="500"/>
 
 ### Technologies
