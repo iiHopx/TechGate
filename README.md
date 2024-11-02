@@ -7,38 +7,32 @@ Overview: A comprehensive e-commerce platform that includes user registration, s
 
 ### User Authentication and Validation
 Custom registration form with real-time JavaScript validation for password matching, age verification, and agreement consent.
-
-![Registration Page](https://github.com/iiHopx/TechGate/blob/main/images/registration.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/registration.png" alt="Registration Page" width="300"/>
 
 ### Dynamic Product Display
 
 **Home Page**: Features a personalized welcome, image carousel, and product galleries with hover effects.
-
-![Home Page](https://github.com/iiHopx/TechGate/blob/main/images/homepage.png)
-![Home Page with Welcome](https://github.com/iiHopx/TechGate/blob/main/images/homepagewithwelcome.png)
-![Home Page Footer](https://github.com/iiHopx/TechGate/blob/main/images/homepagefooter.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/homepage.png" alt="Home Page" width="300"/>
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/homepagewithwelcome.png" alt="Home Page with Welcome" width="300"/>
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/homepagefooter.png" alt="Home Page Footer" width="300"/>
 
 **Product and Search Pages**: Product catalog with filtering and animated display, with case-insensitive search functionality.
-
-![Product Page](https://github.com/iiHopx/TechGate/blob/main/images/showproductspage.png)
-![Search Page](https://github.com/iiHopx/TechGate/blob/main/images/searchpage.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/showproductspage.png" alt="Product Page" width="300"/>
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/searchpage.png" alt="Search Page" width="300"/>
 
 ### Shopping Cart and Checkout
 Allows customers to add products, view total, and save details to local storage. Checkout triggers a Sweet Alert confirmation and saves order details to the database.
-
-![Shopping Cart](https://github.com/iiHopx/TechGate/blob/main/images/buypage.png)
-![Checkout](https://github.com/iiHopx/TechGate/blob/main/images/checkout.png)
-![Checkout Step 2](https://github.com/iiHopx/TechGate/blob/main/images/checkout1.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/buypage.png" alt="Shopping Cart" width="300"/>
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/checkout.png" alt="Checkout" width="300"/>
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/checkout1.png" alt="Checkout Step 2" width="300"/>
 
 ### Admin Dashboard
 Provides CRUD operations for managing products with modal-based effects.
-
-![Admin Manage Page](https://github.com/iiHopx/TechGate/blob/main/images/managePage.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/managePage.png" alt="Admin Manage Page" width="300"/>
 
 ### Responsive Design
 Built with Bootstrap for cross-device compatibility, featuring a navigation bar with logo and session-based logout functionality.
-
-![Login Page](https://github.com/iiHopx/TechGate/blob/main/images/login.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/login.png" alt="Login Page" width="300"/>
 
 ### Technologies
 HTML, CSS, JavaScript, Bootstrap, Local Storage, Sweet Alert, RESTful API Integration
@@ -46,5 +40,4 @@ HTML, CSS, JavaScript, Bootstrap, Local Storage, Sweet Alert, RESTful API Integr
 ## Additional Details:
 Database design includes tables for users, products, and orders.
 Real-time updates and alerts enhance user experience and error handling.
-
-![Error Alert](https://github.com/iiHopx/TechGate/blob/main/images/opps%20alert.png)
+<img src="https://github.com/iiHopx/TechGate/blob/main/images/opps%20alert.png" alt="Error Alert" width="300"/>
