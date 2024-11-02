@@ -22,12 +22,14 @@ Custom registration form with real-time JavaScript validation for password match
 
 ### Shopping Cart and Checkout
 Allows customers to add products, view total, and save details to local storage. Checkout triggers a Sweet Alert confirmation and saves order details to the database.
+
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/buypage.png" alt="Shopping Cart" width="500"/>
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/checkout.png" alt="Checkout" width="500"/>
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/checkout1.png" alt="Checkout Step 2" width="500"/>
 
 ### Admin Dashboard
 Provides CRUD operations for managing products with modal-based effects. Admin Manage Page allows detailed database management and visual feedback for actions taken.
+
 <img src="https://github.com/iiHopx/TechGate/blob/main/images/managePage.png" alt="Admin Manage Page" width="500"/>
 
 ### Responsive Design
