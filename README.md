@@ -2,6 +2,17 @@
 Tech Gate Web Application
 
 Overview: A comprehensive e-commerce platform that includes user registration, secure authentication, product browsing, shopping cart, checkout, and an admin management dashboard. Designed with responsive UI and dynamic content loading from a database using RESTful APIs.
+Technologies Used
+
+HTML/CSS: For layout and styling.
+Bootstrap: For responsive design and component styling.
+JavaScript: For form validation, animations, and interactivity.
+Node.js: Server-side scripting to handle backend logic and manage APIs.
+EJS: Templating engine used for rendering dynamic content, including personalized greetings on the home page.
+MySQL: Database for storing user information, product catalog, and order history.
+API Integration: Fetches product data and manages database operations.
+Sweet Alert: For enhanced and customizable alert messages.
+LocalStorage: Stores cart details and user session information for a seamless shopping experience.
 
 ## Key Features:
 
